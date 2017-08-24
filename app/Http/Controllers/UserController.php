@@ -8,6 +8,8 @@ use App\Http\Controllers\Controller;
 use JWTAuth;
 use App\User;
 use JWTAuthException;
+use Illuminate\Support\Facades\Log;
+
 class UserController extends Controller
 {
 
@@ -39,7 +41,10 @@ class UserController extends Controller
     }
 
     public function getAuthUser(Request $request){
+        Log::info('Token : '.$request->token);
+        Log::info('Token : '.json_encode(JWTAuth::parseToken($request->token)));
         $user = JWTAuth::toUser($request->token);
+        Log::info('$user : '.$user);
         return response()->json(['result' => $user]);
     }
 }
